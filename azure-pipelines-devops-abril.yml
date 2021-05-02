@@ -12,4 +12,16 @@ pool:
 steps:
 - script: echo  k8 azure Hello, world!
   displayName: 'Run a one-line script'
-
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/azure-terraform/kubernetes'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret)  -var ssh_public_key=$(public.secureFilePath)'
+    backendType: 'azurerm'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'terrafom-bk-sf'
+    backendAzureRmResourceGroupLocation: 'mastereurope'
+    backendAzureRmStorageAccountName: 'storeaccountpromad'
+    backendAzureRmContainerName: 'stocontainerreaccountpromad'
+    backendAzureRmKey: 'kubernetes-devtfstate'
+    allowTelemetryCollection: true
